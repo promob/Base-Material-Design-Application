@@ -10,11 +10,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.crashlytics.android.Crashlytics;
 import com.promob.basematerialdesign.custom.BaseActivity;
 import com.promob.basematerialdesign.fragment.FirstFragment;
 import com.promob.basematerialdesign.fragment.SecondFragment;
 import com.promob.basematerialdesign.fragment.ThreeFragment;
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends BaseActivity implements
         NavigationView.OnNavigationItemSelectedListener {
@@ -24,7 +27,6 @@ public class MainActivity extends BaseActivity implements
 
     private final Handler mDrawerActionHandler = new Handler();
     private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
     private int mNavItemId;
 
     Toolbar toolbar;
@@ -34,7 +36,7 @@ public class MainActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        init();
+        initViews();
         // İlk başta hangi fragment açılacaksa o belirleniyor.
         if (null == savedInstanceState) {
             mNavItemId = R.id.first; //Drawer'daki id'ye göre
@@ -44,11 +46,28 @@ public class MainActivity extends BaseActivity implements
         drawerLayoutSetup();
     }
 
-    void init() {
+    @Override
+    public void initialize() {
+
+    }
+
+    @Override
+    public void initViews() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getString(R.string.app_name));
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle(getString(R.string.app_name));
+    }
+
+    @Override
+    public void actions() {
+
+    }
+
+    @Override
+    public void functions() {
+
     }
 
     /**
@@ -57,15 +76,16 @@ public class MainActivity extends BaseActivity implements
     public void drawerLayoutSetup() {
         // Navigasyon olaylarını dinler
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
-        navigationView.setNavigationItemSelectedListener(this);
+        if (navigationView != null)
+            navigationView.setNavigationItemSelectedListener(this);
 
         // navigasyon elemanı seçimi
-        navigationView.getMenu().findItem(mNavItemId).setChecked(true);
+        if (navigationView != null)
+            navigationView.getMenu().findItem(mNavItemId).setChecked(true);
 
         // hamburger ikonu aç kapa
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.open,
-                R.string.close);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.open, R.string.close);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
         navigate(mNavItemId);
@@ -82,17 +102,20 @@ public class MainActivity extends BaseActivity implements
             case R.id.first:
                 f = new FirstFragment();
                 launchFragment(f, R.string.first);
-                getSupportActionBar().setTitle(getString(R.string.app_name));
+                if (getSupportActionBar() != null)
+                    getSupportActionBar().setTitle(getString(R.string.app_name));
                 break;
             case R.id.second:
                 f = new SecondFragment();
                 launchFragment(f, R.string.second);
-                getSupportActionBar().setTitle(getString(R.string.app_name));
+                if (getSupportActionBar() != null)
+                    getSupportActionBar().setTitle(getString(R.string.app_name));
                 break;
             case R.id.three:
                 f = new ThreeFragment();
                 launchFragment(f, R.string.three);
-                getSupportActionBar().setTitle(getString(R.string.app_name));
+                if (getSupportActionBar() != null)
+                    getSupportActionBar().setTitle(getString(R.string.app_name));
                 break;
             default:
         }
@@ -143,10 +166,11 @@ public class MainActivity extends BaseActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
+    }
 
-        return super.onOptionsItemSelected(item);
+    @Override
+    public void onClick(View v) {
+
     }
 }

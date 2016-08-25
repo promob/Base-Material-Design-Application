@@ -2,6 +2,7 @@ package com.promob.basematerialdesign.custom;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.android.volley.RequestQueue;
 
@@ -13,7 +14,7 @@ import com.android.volley.RequestQueue;
  * @author Süleyman Bilgin
  * @since 1.0
  */
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
     /**
      * mRequestQueue değişkeni network işlemlerinde kullanılmaktadır.
      * Herhangi bir activity bu classtan miras alındığı zaman değişken tanımlaması gerekmemektedir.
@@ -28,4 +29,13 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
+    public abstract void initialize();
+
+    public abstract void initViews();
+
+    public abstract void actions();
+
+    public abstract void functions();
+
 }

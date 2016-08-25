@@ -24,4 +24,29 @@ public class SecondFragment extends BaseFragment {
 
         return view;
     }
+
+    @Override
+    public void initialize() {
+
+    }
+
+    @Override
+    public void initViews() {
+
+    }
+
+    @Override
+    public void actions() {
+
+    }
+
+    @Override
+    public void functions() {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
 }

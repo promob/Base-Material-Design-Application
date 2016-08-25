@@ -17,10 +17,10 @@ import com.android.volley.RequestQueue;
  * @author Süleyman Bilgin
  * @since 1.0
  */
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements View.OnClickListener {
     /**
      * <h1>mRequestQueue</h1>
-     *
+     * <p/>
      * mRequestQueue değişkeni network işlemlerinde kullanılmaktadır.
      * Herhangi bir fragment bu classtan miras alındığı zaman değişken tanımlaması gerekmemektedir.
      * <p/>
@@ -40,4 +40,12 @@ public class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
+
+    public abstract void initialize();
+
+    public abstract void initViews();
+
+    public abstract void actions();
+
+    public abstract void functions();
 }
